@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import {BrowserRouter as Router,Route,Link,} from 'react-router-dom'
+import Modules from './Modules'
+import Home from './Home'
+import { modules } from './data';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+export default class App extends Component {
+  state={
+    modules:modules
+  }
+  handleRenderProps=(routerProps) => {
+    return(<Modules {...routerProps} modules={this.state.modules}/>)
+  }
+  render() {
+    // console.log(this.state.modules)
+    return (
+      <Router>
+        
+        <div style={{width: 1000, margin: '0 auto'}}>
+        <h1>App Component</h1>
+          <ul>
+            <li><Link to='/'>Home</Link></li>
+            <li><Link to='/modules'>Modules</Link></li>
+          </ul>
+          <hr />
+          <Route exact path='/' component={Home} />
+          <Route path='/modules' render={this.handleRenderProps/*routerProps => <Modules {...routerProps} modules={this.state.modules}/>*/}/>
+        </div>
+      </Router>
+    )
+  }
 }
 
-export default App;
+
+
+//need render and callback function to pass down to Modules
